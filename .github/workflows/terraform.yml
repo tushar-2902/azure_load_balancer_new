@@ -5,7 +5,7 @@ on:
 
 jobs:
   newpipeline:
-        run-on: self-hosted
+        runs-on: self-hosted
         steps:
         - name: runs-print
-        run: echo "Tushar Mishra"
+          run: echo "Tushar Mishra"
