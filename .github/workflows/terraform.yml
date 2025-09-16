@@ -4,5 +4,8 @@ on:
   workflow_dispatch
 
 jobs:
-  new pipeline:
-        run-on:
+  newpipeline:
+        run-on: self-hosted
+        steps:
+        - name: runs-print
+        run: echo "Tushar Mishra"
