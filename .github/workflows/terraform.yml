@@ -7,6 +7,10 @@ jobs:
   newpipeline:
         runs-on: self-hosted
         steps:
+        
+        - name: Checkout repo
+          uses: actions/checkout@v3
+          
         - name: Terraform Init
           id: init
           run: terraform init -input=false
