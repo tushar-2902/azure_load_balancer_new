@@ -3,6 +3,11 @@ name: first pipeline
 on: 
   workflow_dispatch
 
+permissions:
+  id-token: write   # OIDC token ke liye required
+  contents: read
+  pull-requests: write  
+
 jobs:
   Terraforminit:
         runs-on: self-hosted
@@ -10,11 +15,19 @@ jobs:
         
         - name: Checkout repo
           uses: actions/checkout@v3
+
+        - name: Azure Login with OIDC
+          uses: azure/login@v2
+          with:
+           client-id: 4b1c3eb7-0305-4bf0-b2be-9dab6c6f14a5
+           tenant-id: 87fec6fb-a2ea-4f38-bee7-2555182f058e
+           subscription-id: 51984565-3b14-41c7-900f-cf01ff601798
           
         - name: Terraform Init
           id: init
           run: terraform init -input=false
           working-directory: ./Env
+          
 
   Terraformplan:
       runs-on: self-hosted
@@ -22,6 +35,14 @@ jobs:
 
       - name: Checkout repo
         uses: actions/checkout@v3
+
+
+      - name: Azure Login with OIDC
+        uses: azure/login@v2
+        with:
+           client-id: 4b1c3eb7-0305-4bf0-b2be-9dab6c6f14a5
+           tenant-id: 87fec6fb-a2ea-4f38-bee7-2555182f058e
+           subscription-id: 51984565-3b14-41c7-900f-cf01ff601798   
 
       - name: Terraform Init
         id: init
@@ -32,4 +53,29 @@ jobs:
         id: plan
         run: terraform plan -out=tfplan
         working-directory: ./Env
+
+  TerraformApply:
+       runs-on: self-hosted
+       steps:
+
+       - name: Checkout repo
+         uses: actions/checkout@v3
+
+       - name: Azure Login with OIDC
+         uses: azure/login@v2
+         with:
+           client-id: 4b1c3eb7-0305-4bf0-b2be-9dab6c6f14a5
+           tenant-id: 87fec6fb-a2ea-4f38-bee7-2555182f058e
+           subscription-id: 51984565-3b14-41c7-900f-cf01ff601798
+
+       - name: Terraform Init
+         id: init
+         run: terraform init -input=false
+         working-directory: ./Env
+
+       - name: Terraform Apply
+         id: apply
+         run: terraform apply -input=false -auto-approve tfplan
+         working-directory: ./Env  
+
 
