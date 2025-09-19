@@ -76,15 +76,15 @@ jobs:
            tenant-id: 87fec6fb-a2ea-4f38-bee7-2555182f058e
            subscription-id: 51984565-3b14-41c7-900f-cf01ff601798
 
-       - name: Download tfplan artifact
-         uses: actions/download-artifact@v4
-         with:
-          name: tfplan
-          path: ./Env
-
+      
        - name: Terraform Init
          id: init
          run: terraform init -input=false
+         working-directory: ./Env
+
+       - name: Terraform Plan
+         id: plan
+         run: terraform plan -out=tfplan
          working-directory: ./Env
 
        - name: Terraform Apply
