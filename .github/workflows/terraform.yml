@@ -55,6 +55,12 @@ jobs:
         run: terraform plan -out=tfplan
         working-directory: ./Env
 
+      - name: Download tfplan artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: tfplan
+          path: ./Env
+
   TerraformApply:
        runs-on: self-hosted
        needs: Terraformplan
@@ -69,6 +75,12 @@ jobs:
            client-id: 4b1c3eb7-0305-4bf0-b2be-9dab6c6f14a5
            tenant-id: 87fec6fb-a2ea-4f38-bee7-2555182f058e
            subscription-id: 51984565-3b14-41c7-900f-cf01ff601798
+
+       - name: Download tfplan artifact
+         uses: actions/download-artifact@v4
+         with:
+          name: tfplan
+          path: ./Env
 
        - name: Terraform Init
          id: init
