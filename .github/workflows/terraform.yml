@@ -55,12 +55,6 @@ jobs:
         run: terraform plan -out=tfplan
         working-directory: ./Env
 
-      - name: Download tfplan artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: tfplan
-          path: ./Env
-
   TerraformApply:
        runs-on: self-hosted
        needs: Terraformplan
